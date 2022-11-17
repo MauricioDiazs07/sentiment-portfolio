@@ -33,7 +33,7 @@ class pre_process():
         else:
             x,y,w,h = 0,0,0,0
             self.face = False
-        self.coordenadas = (x,y,w,h)
+        self.coordenadas = (int(x),int(y),int(w),int(h))
         
     
     def detectar_emociones(self):
@@ -53,8 +53,11 @@ class pre_process():
             self.etiqueta = -1
     
     def dibujar_emocion(self,img):
-        if self.mask:
-            img[0:120,0:120] = self.emociones_dibujo[int(self.etiqueta)]
+        if self.mask and self.face:
+            (x,y,w,h) = self.coordenadas
+            emocion = self.emociones_dibujo[int(self.etiqueta)]
+            emocion_temp = resize(emocion,(h,w), interpolation = INTER_AREA)
+            img[y:y+h , x:x+w] = emocion_temp
         else:
             pass
         return img
