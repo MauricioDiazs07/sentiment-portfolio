@@ -5,36 +5,25 @@ from cv2 import VideoCapture, destroyAllWindows, waitKey, COLOR_BGR2RGB,cvtColor
 
 
 class bucle_video():
-    def __init__(self, numero_camara, FC, MOD, hands) -> None:
+    def __init__(self, numero_camara, FC, MOD) -> None:
         self.cap = VideoCapture(numero_camara)
         self.FC = FC
         self.model = MOD
-        self.hands = hands
     def star_video(self):
         camara = open_camera(self.cap)
         pre_process_class = pre_process(self.FC,self.model)
         i=0
-        with self.hands.Hands(
-            static_image_mode=False,
-            max_num_hands=2,
-            min_detection_confidence=0.5) as hands:
-            while True:
-                i+=1
-                img = camara.get_image()
-                img= pre_process_class.pre_process(img)
-                results = hands.process(cvtColor(img,COLOR_BGR2RGB))
-                change_emoji = False
-                if results.multi_hand_landmarks == 2:
-                    change_emoji = True
-                    print('manitas')
+        while True:
+            i+=1
+            img = camara.get_image()
+            img= pre_process_class.pre_process(img)
+            if waitKey(1) == 27:
+                break
+            if i%12 == 0:
+                i=0
+                pre_process_class.detectar_emociones()
+            img = pre_process_class.dibujar_emocion(img)
+            show_img(img)
                 
-                if waitKey(1) == 27:
-                    break
-                if i%12 == 0:
-                    i=0
-                    pre_process_class.detectar_emociones()
-                img = pre_process_class.dibujar_emocion(img)
-                show_img(img)
-                
-            self.cap.release()
-            destroyAllWindows()
+        self.cap.release()
+        destroyAllWindows()
