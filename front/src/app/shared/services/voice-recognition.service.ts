@@ -83,36 +83,40 @@ export class VoiceRecognitionService implements OnInit {
   wordConcat() {
     this.text = this.text + ' ' + this.tempWords + '.';
     this.tempWords = '';
-    if (this.text.toLowerCase().includes('video') &&
-      this._isMarkListening  
-    ) {
-      this.reset();
-      this.router.navigate(['/video-recognition']);
-    }
-    else if (this.text.toLowerCase().includes('principal') &&
-      this._isMarkListening  
-    ) {
-      this.reset();
-      this.router.navigate(['/']);
-    }
-    else if (this.text.toLowerCase().includes('imagen') &&
-      this._isMarkListening  
-    ) {
-      this.reset();
-      this.router.navigate(['/image-recognition']);
-    }
-    else if (this.text.toLocaleLowerCase().includes('text') &&
-      this._isMarkListening  
-    ) {
-      this.reset();
-      this.router.navigate(['/text-recognition']);
-    }
-    else if (this.text.toLocaleLowerCase().includes('voz') ||
-    this.text.toLocaleLowerCase().includes('vos') &&
-      this._isMarkListening  
-    ) {
-      this.reset();
-      this.router.navigate(['/voice-recognition']);
+
+    if (this._isMarkListening ||
+        this.text.toLocaleLowerCase().includes('mar')) {
+      if (this.text.toLowerCase().includes('video') &&
+        this._isMarkListening  
+      ) {
+        this.reset();
+        this.router.navigate(['/video-recognition']);
+      }
+      else if (this.text.toLowerCase().includes('principal') &&
+        this._isMarkListening  
+      ) {
+        this.reset();
+        this.router.navigate(['/']);
+      }
+      else if (this.text.toLowerCase().includes('imagen') &&
+        this._isMarkListening  
+      ) {
+        this.reset();
+        this.router.navigate(['/image-recognition']);
+      }
+      else if (this.text.toLocaleLowerCase().includes('text') &&
+        this._isMarkListening  
+      ) {
+        this.reset();
+        this.router.navigate(['/text-recognition']);
+      }
+      else if (this.text.toLocaleLowerCase().includes('voz') ||
+      this.text.toLocaleLowerCase().includes('vos') &&
+        this._isMarkListening  
+      ) {
+        this.reset();
+        this.router.navigate(['/voice-recognition']);
+      }
     }
 
     else if (

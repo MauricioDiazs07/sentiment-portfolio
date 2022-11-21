@@ -22,4 +22,8 @@
     <!-- </ng-template> -->
     <!-- <p>{{ voiceRecService._isMarkListening }}</p> -->
     <p>{{ voiceRecService.text }}</p>
+<div>
+
+<div *ngIf="!voiceRecService.isHome && voiceRecService._isMarkListening">
+    <p>Estoy escuchando, ¿a dónde quieres ir?</p>
 </div>
