@@ -8,7 +8,7 @@ from cv2 import CascadeClassifier
 
 
 #Load principal datas
-#faceClassif = CascadeClassifier('./back/data/models/haarcascade_frontalface_default.xml')
+# faceClassif = CascadeClassifier('./back/resources/models/haarcascade_frontalface_default.xml')
 #model = tf.keras.models.load_model('./back/data/models/0.606854_1.107095.hdf5')
 
 #Correr video
@@ -25,7 +25,7 @@ from cv2 import CascadeClassifier
 #Traductor
 traductor = traductor_es_en()
 traduccion = traductor.traducir('Hola, necesito un traductor')
-#print(traduccion)
+print(traduccion)
 
 #Marc habla
 #hablando = voz()
@@ -35,4 +35,5 @@ traduccion = traductor.traducir('Hola, necesito un traductor')
 #Bert
 Bert = bert()
 respuesta = Bert.predic(traductor.traducir('Me gustó el producto'))
+# respuesta = Bert.predic('I liked the product')
 print(respuesta)
