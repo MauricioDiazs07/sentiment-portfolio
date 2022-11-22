@@ -1,6 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { normalizeDiacritics } from 'normalize-text'
 import { delay, filter } from 'rxjs';
+import { SentimentAnalysisService } from './sentiment-analysis.service';
 
 declare var  webkitSpeechRecognition: any;
 
@@ -12,21 +14,35 @@ declare var  webkitSpeechRecognition: any;
   providedIn: 'root'
 })
 export class VoiceRecognitionService implements OnInit {
+  // general properties
   recognition = new webkitSpeechRecognition();
+  hasInit: boolean = false;
   isStopSpeechRecording: boolean = false;
   _isMarkListening: boolean = false;
   isHome: boolean = false;
-  public text: string = '';
+  currentRoute: string = '';
   tempWords: string = '';
+
+  // voice properties
+  analysisText: string = '';
+  lastAnalyzedText: string = '';
+  isStarted: boolean = false;
+  isPos: boolean = false;
+
+  // text properties
+  isWriting: boolean = false;
 
   constructor(
     private router: Router,
+    private sentimentService: SentimentAnalysisService,
   ) {
     this.router.events.pipe(
       delay(10),
       filter((e) => e instanceof NavigationEnd)
     )
     .subscribe((event: any) => {
+      this.currentRoute = event.url;
+      console.log(this.currentRoute);
       this.isHome = event.url === '/';
     })
   }
@@ -53,6 +69,11 @@ export class VoiceRecognitionService implements OnInit {
   }
 
   start() {
+    this.isStarted = false;
+
+    if (this.hasInit) return;
+
+    this.hasInit = true;
     this.isStopSpeechRecording = false;
     this.startRecognition();
     console.log("Speech Recognition Started");
@@ -60,7 +81,7 @@ export class VoiceRecognitionService implements OnInit {
       if (this.isStopSpeechRecording) {
         this.stopRecognition();
       } else {
-        this.wordConcat();
+        this.listen();
         this.startRecognition();
       }
     });
@@ -68,8 +89,8 @@ export class VoiceRecognitionService implements OnInit {
 
   stop() {
     this.isStopSpeechRecording = true;
+    this.stopRecognition();
     console.log("End speech recognition");
-    this.wordConcat();
   }
 
   startRecognition() {
@@ -80,68 +101,151 @@ export class VoiceRecognitionService implements OnInit {
     this.recognition.stop();
   }
 
-  wordConcat() {
-    this.text = this.text + ' ' + this.tempWords + '.';
-    this.tempWords = '';
-
-    if (this._isMarkListening ||
-        this.text.toLocaleLowerCase().includes('mar')) {
-      if (this.text.toLowerCase().includes('video') &&
-        this._isMarkListening  
-      ) {
-        this.reset();
-        this.router.navigate(['/video-recognition']);
-      }
-      else if (this.text.toLowerCase().includes('principal') &&
-        this._isMarkListening  
-      ) {
-        this.reset();
-        this.router.navigate(['/']);
-      }
-      else if (this.text.toLowerCase().includes('imagen') &&
-        this._isMarkListening  
-      ) {
-        this.reset();
-        this.router.navigate(['/image-recognition']);
-      }
-      else if (this.text.toLocaleLowerCase().includes('text') &&
-        this._isMarkListening  
-      ) {
-        this.reset();
-        this.router.navigate(['/text-recognition']);
-      }
-      else if (this.text.toLocaleLowerCase().includes('voz') ||
-      this.text.toLocaleLowerCase().includes('vos') &&
-        this._isMarkListening  
-      ) {
-        this.reset();
-        this.router.navigate(['/voice-recognition']);
-      }
-    }
-
-    else if (
-      this.text.toLowerCase().includes('mark') || 
-      this.text.toLowerCase().includes('market') ||
-      this.text.toLocaleLowerCase().includes('mar') ||
-      this.text.toLocaleLowerCase().includes('mac')
-      ) {
-        this.reset();
-        this.startListening();
-    }
-
-  }
-
   startListening() {
     console.log("estoy escuchando");
-    this.text = '';
+    this.tempWords = '';
     this._isMarkListening = !this._isMarkListening;
     console.log(this._isMarkListening);
   }
 
-  reset() {
+  reset(isInstruction: boolean = true): void {
     this.stopRecognition();
     this._isMarkListening = false;
-    this.text = '';
+    this.tempWords = '';
+    if (!isInstruction) return;
+    this.analysisText = '';
+  }
+
+  listen(): void {
+    let text = this.normalize(this.tempWords);
+
+    if (this.isUserCalling(text)) {
+        this.startListening();
+    }
     
+    if (!this._isMarkListening) {
+      if(this.currentRoute == '/voice-recognition'){
+        this.saveAnalysisText();
+      }
+      return;
+    }
+
+    let isNavigation = this.isNavigation(text);
+
+    if (isNavigation) return;
+
+    this.isInstruction(text);
+
+  }
+
+  isUserCalling(text: string): boolean {
+    
+    let isCalling = text.includes('oye') ||
+                    text.includes('hey');
+
+    let isName = text.includes('mar');
+
+    return isCalling && isName;
+  }
+
+  isNavigation(text: string):boolean {
+    let instruction = text.includes('vamos') ||
+                      text.includes('llevame') ||
+                      text.includes('mandame') ||
+                      text.includes('ponme') ||
+                      text.includes('quiero') ||
+                      text.includes('enviame')
+
+    if (!instruction){
+      return false;
+    }
+
+    let route = '';
+
+    if (text.includes('principal') ||
+        text.includes('regresar') ||
+        text.includes('menu')) {
+      route = '/';
+    }
+    else if (text.includes('video')) {
+      route = '/video-recognition';
+    }
+    else if (text.includes('imagen')) {
+      route = '/image-recognition';
+    }
+    else if (text.includes('texto')) {
+      route = '/text-recognition';
+    }
+    else if (text.includes('voz') ||
+             text.includes('vos')) {
+      route = '/voice-recognition';
+    }
+
+    this.reset();
+    this.router.navigate([route]);
+
+    return true;
+  }
+
+  isInstruction(text: string): void {
+    if (text.includes('nada')) {
+      this.reset(false);
+    }
+
+    if (this.currentRoute === '/text-recognition' ||
+        this.currentRoute === '/voice-recognition') {
+      this.listenTextInstructions(text);
+    }
+    else if (this.currentRoute === '/image-recognition') {
+      this.listenImageInstructions(text);
+    }
+    else if (this.currentRoute === '/video-recognition') {
+      this.listenVideoInstructions(text);
+    }
+  }
+
+  listenTextInstructions(text: string): void {
+    if (text.includes('borra') &&
+        text.includes('todo')) 
+    {
+      this.reset();
+    }
+    else if (text.includes('analiza') &&
+             text.includes('texto')) 
+    {
+      this.sentimentService.getTextAnalysis(
+        this.analysisText
+      ).subscribe(res => {
+        this.reset();
+        this.isStarted = true;
+        this.isPos = res.isPos;
+        this.lastAnalyzedText = res.text;
+      }
+      );
+    }
+  }
+
+  listenImageInstructions(text: string): void {
+    console.log("HOLA IMAGEN")
+
+  }
+
+  listenVideoInstructions(text: string): void {
+    console.log("HOLA VIDEO")
+  }
+
+  saveAnalysisText(): void {
+    let dot = this.tempWords.length == 0 ? '' : '.';
+    let firstLetter = this.tempWords.charAt(0);
+    firstLetter = firstLetter.toUpperCase();
+    
+    let tempWords = firstLetter + this.tempWords.slice(1);
+
+    this.analysisText = this.analysisText + ' ' + tempWords + dot;
+    this.tempWords = '';
+  }
+
+  private normalize(str: string): string {
+    return normalizeDiacritics(str.toLowerCase());
   }
 }

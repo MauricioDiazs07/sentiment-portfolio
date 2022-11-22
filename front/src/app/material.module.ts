@@ -4,9 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 
 const myModules: any[] = [
-    MatInputModule,
-    MatCardModule,
-    MatSelectModule,
+    MatInputModule
 ];
 
 @NgModule({

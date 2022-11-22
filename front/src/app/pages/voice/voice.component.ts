@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.service';
 
 @Component({
   selector: 'app-voice',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VoiceComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public voiceRecService: VoiceRecognitionService
+  ) {
+    this.voiceRecService.init();
+    this.voiceRecService.start();
+  }
 
   ngOnInit(): void {
   }

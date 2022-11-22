@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '@app/app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from '@app/app.component';
 import { HeaderComponent } from '@app/shared/components/header/header.component';
-// import { MaterialModule } from '@app/material.module';
-import { SpeechToTextComponent } from '@app/shared/components/speech-to-text/speech-to-text.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    SpeechToTextComponent
+    HeaderComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    // MaterialModule
+    BrowserModule,
+    // MaterialModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

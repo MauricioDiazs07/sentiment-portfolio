@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TextRoutingModule } from './text-routing.module';
 import { TextComponent } from './text.component';
+import { MaterialModule } from '@app/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { TextComponent } from './text.component';
   ],
   imports: [
     CommonModule,
-    TextRoutingModule
+    TextRoutingModule,
+    // MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class TextModule { }

@@ -2,3 +2,30 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.positive {
+    background-color: #6FD89D;
+}
+
+.negative {
+    background-color: #FC6368;
+}
+
+.positive > div {
+    height: 10rem;
+    width: 10rem;
+    margin: auto;
+    background-image: url(./assets/img/pos.png);
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover;
+}
+
+
+.negative > div {
+    height: 10rem;
+    width: 10rem;
+    margin: auto;
+    background-image: url(./assets/img/neg.png);
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover;
+}

@@ -12,10 +12,7 @@ export class SpeechToTextComponent implements OnInit {
 
   constructor(
     public voiceRecService : VoiceRecognitionService
-  ) {
-    this.voiceRecService.init();
-    this.voiceRecService.start();
-   }
+  ) { }
 
   ngOnInit(): void {
   }

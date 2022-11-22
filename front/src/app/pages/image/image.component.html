@@ -1,1 +1,5 @@
 <p>image works!</p>
+
+<p *ngIf="voiceRecService._isMarkListening">Estoy escuchando</p>
+    <ng-content></ng-content>
+<p>{{ voiceRecService.analysisText }}</p>
