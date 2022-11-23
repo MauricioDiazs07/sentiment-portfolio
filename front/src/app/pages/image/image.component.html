@@ -1,5 +1,12 @@
-<p>image works!</p>
-
-<p *ngIf="voiceRecService._isMarkListening">Estoy escuchando</p>
-    <ng-content></ng-content>
-<p>{{ voiceRecService.analysisText }}</p>
+<div>
+    <p *ngIf="voiceRecService._isMarkListening">Estoy escuchando</p>
+    <br>
+    <h6>En el apartado inferior, podrá subir la imagen que será analizada.</h6>
+    <ul>
+        <li>Para comenzar, suba una imagen de su computadora y envíela.</li>
+        <li>Espere unos segundos y verá el análisis en pantalla</li>
+    </ul>
+    <br>
+    
+    <app-upload-img></app-upload-img>
+</div>

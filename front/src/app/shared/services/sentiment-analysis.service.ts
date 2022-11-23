@@ -28,4 +28,15 @@ export class SentimentAnalysisService {
         map(res => res)
       );
   }
+
+  getImgAnalysis(
+    img: any
+  ): Observable<any> {
+    const url = `${this.api_url}/get-img-sentiment`;
+    const formData = new FormData();
+
+    formData.append("img", img, img.name);
+
+    return this.http.post(url, formData, {responseType: 'blob'});
+  }
 }

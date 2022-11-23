@@ -6,8 +6,10 @@ class emotion_img():
         pre_process_class = pre_process(FC,model)
         img= pre_process_class.pre_process(img)
         pre_process_class.detectar_emociones()
-        img = pre_process_class.dibujar_emocion(img)
+        self.img = pre_process_class.dibujar_emocion(img)
         # show_img(img)
         # waitKey()
         # destroyAllWindows()
-        return img
+        
+    def get_img(self):
+        return self.img
