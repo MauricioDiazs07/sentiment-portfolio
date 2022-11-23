@@ -12,15 +12,19 @@
     <p>Su texto:</p>
 
     <form class="example-form">
-        <input type="text" name="" id="">
+        <mat-form-field class="example-full-width">
+            <mat-label>Escriba su texto</mat-label>
+            <input matInput #text>
+        </mat-form-field>
     </form>
+    <div *ngIf="voiceRecService.getAnalyzedText | async">{{ sendTextData(text.value) }}</div>
 </div>
 
-<div *ngIf="voiceRecService.isStarted"
-     [ngClass]="{'positive': voiceRecService.isPos,
-                'negative': !voiceRecService.isPos}">
-    <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
-    <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
+<div *ngIf="isStarted"
+     [ngClass]="{'positive': isPos,
+                'negative': !isPos}">
+    <p>Texto analizado: {{ lastAnalyzedText }}</p>
+    <p>El sentimiento es {{ isPos ? 'positivo' : 'negativo' }}</p>
 
     <div></div>
 </div>

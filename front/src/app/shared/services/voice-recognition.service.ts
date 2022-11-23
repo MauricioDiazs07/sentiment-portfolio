@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { normalizeDiacritics } from 'normalize-text'
-import { delay, filter } from 'rxjs';
+import { BehaviorSubject, delay, filter, map, take } from 'rxjs';
 import { SentimentAnalysisService } from './sentiment-analysis.service';
 
 declare var  webkitSpeechRecognition: any;
@@ -30,7 +30,7 @@ export class VoiceRecognitionService implements OnInit {
   isPos: boolean = false;
 
   // text properties
-  isWriting: boolean = false;
+  private isTextAnalyzed = new BehaviorSubject<boolean>(false);
 
   constructor(
     private router: Router,
@@ -48,6 +48,14 @@ export class VoiceRecognitionService implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  get getAnalyzedText() {
+    return this.isTextAnalyzed.asObservable();
+  }
+
+  set setAnalyzedText(condition: boolean) {
+    this.isTextAnalyzed.next(condition);
   }
   
   init() {
@@ -118,6 +126,7 @@ export class VoiceRecognitionService implements OnInit {
 
   listen(): void {
     let text = this.normalize(this.tempWords);
+    this.getAnalyzedText.pipe(take(1), map(res => console.log("ANALZD", res)))
 
     if (this.isUserCalling(text)) {
         this.startListening();
@@ -192,8 +201,10 @@ export class VoiceRecognitionService implements OnInit {
       this.reset(false);
     }
 
-    if (this.currentRoute === '/text-recognition' ||
-        this.currentRoute === '/voice-recognition') {
+    if (this.currentRoute === '/voice-recognition') {
+      this.listenVoiceInstructions(text);
+    }
+    else if (this.currentRoute === '/text-recognition' ) {
       this.listenTextInstructions(text);
     }
     else if (this.currentRoute === '/image-recognition') {
@@ -204,7 +215,7 @@ export class VoiceRecognitionService implements OnInit {
     }
   }
 
-  listenTextInstructions(text: string): void {
+  listenVoiceInstructions(text: string): void {
     if (text.includes('borra') &&
         text.includes('todo')) 
     {
@@ -222,6 +233,14 @@ export class VoiceRecognitionService implements OnInit {
         this.lastAnalyzedText = res.text;
       }
       );
+    }
+  }
+
+  listenTextInstructions(text: string): void {
+    if (text.includes('analiza') &&
+        text.includes('texto'))
+    {
+      this.isTextAnalyzed.next(true);
     }
   }
 
