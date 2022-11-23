@@ -5,7 +5,7 @@ class pre_process():
     def __init__(self,FC,model):
         self.faceClassif = FC
         self.model = model
-        img_emociones = imread('./back/data/video/emociones.png')
+        img_emociones = imread('./back/resources/video/emociones.png')
         tamano=120
         img_feliz = img_emociones[40:40+tamano, 130:130+tamano]
         img_enojo = img_emociones[161:161+tamano, 259:259+tamano]

@@ -7,6 +7,7 @@ class emotion_img():
         img= pre_process_class.pre_process(img)
         pre_process_class.detectar_emociones()
         img = pre_process_class.dibujar_emocion(img)
-        show_img(img)
-        waitKey()
-        destroyAllWindows()
+        # show_img(img)
+        # waitKey()
+        # destroyAllWindows()
+        return img
