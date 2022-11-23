@@ -1,4 +1,26 @@
-<p>video works!</p>
-<p *ngIf="voiceRecService._isMarkListening">Estoy escuchando</p>
-    <ng-content></ng-content>
-<p>{{ voiceRecService.analysisText }}</p>
+<div>
+    <p *ngIf="voiceRecService._isMarkListening" class="mark-listens">Estoy escuchando</p>
+    <br>
+    <p>A continuación, podrá ver la imagen captada por su cámara, en donde se clasificará la emoción actual.</p>
+    <br>
+
+    <div class="video-capture">
+        <!-- <video id="video" autoplay #video [width]="width" [height]="height"></video> -->
+        <div class="original">
+            <h2>Imagen original</h2>
+            <video id="video" autoplay #video></video>
+            <canvas id="canvas" #canvas [width]="width" [height]="height" class="hide"></canvas>
+        </div>
+        
+        <!-- <canvas id="canvas" #canvas class="hide"></canvas> -->
+        <div *ngIf="shortLink">
+            <h2>Imagen con sentimiento</h2>
+            <img src="{{ shortLink }}" alt="">
+        </div>
+    </div>
+
+    <div class="snap-container" class="hide">
+        {{ analyzePicture() }}
+    </div>
+
+</div>

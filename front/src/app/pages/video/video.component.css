@@ -1,0 +1,33 @@
+.snap-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.video-capture {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.original {
+    width: 40%;
+}
+
+#video, #canva {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .video-capture {
+        display: block;
+    }
+
+    .original {
+        width: 82%;
+        margin: auto;
+    }
+}
