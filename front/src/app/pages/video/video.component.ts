@@ -1,4 +1,9 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component,
+         ElementRef,
+         HostListener,
+         OnInit,
+         ViewChild,
+         OnDestroy } from '@angular/core';
 import { SentimentAnalysisService } from '@app/shared/services/sentiment-analysis.service';
 import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.service';
 
@@ -7,8 +12,9 @@ import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css']
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent implements OnInit, OnDestroy {
   videoRef: any;
+  stream!: any;
   width = 0;
   height = 0;
 
@@ -34,6 +40,12 @@ export class VideoComponent implements OnInit {
     this.adjustCanvas();
   }
 
+  ngOnDestroy(): void {
+    this.stream.getTracks().forEach(function(track: any) {
+      track.stop();
+    })
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.adjustCanvas();
@@ -51,13 +63,13 @@ export class VideoComponent implements OnInit {
   }
 
   async setupCamera() {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    this.stream = await navigator.mediaDevices.getUserMedia({
       video:true,
       audio:false
     });
 
-    if (stream) {
-      this.video.nativeElement.srcObject = stream;
+    if (this.stream) {
+      this.video.nativeElement.srcObject = this.stream;
       this.video.nativeElement.play();
     }
   }
