@@ -18,7 +18,7 @@ export class VoiceRecognitionService implements OnInit {
   recognition = new webkitSpeechRecognition();
   hasInit: boolean = false;
   isStopSpeechRecording: boolean = false;
-  _isMarkListening: boolean = false;
+  _isMariaListening: boolean = false;
   isHome: boolean = false;
   currentRoute: string = '';
   tempWords: string = '';
@@ -112,13 +112,13 @@ export class VoiceRecognitionService implements OnInit {
   startListening() {
     console.log("estoy escuchando");
     this.tempWords = '';
-    this._isMarkListening = !this._isMarkListening;
-    console.log(this._isMarkListening);
+    this._isMariaListening = !this._isMariaListening;
+    console.log(this._isMariaListening);
   }
 
   reset(isInstruction: boolean = true): void {
     this.stopRecognition();
-    this._isMarkListening = false;
+    this._isMariaListening = false;
     this.tempWords = '';
     if (!isInstruction) return;
     this.analysisText = '';
@@ -132,7 +132,7 @@ export class VoiceRecognitionService implements OnInit {
         this.startListening();
     }
     
-    if (!this._isMarkListening) {
+    if (!this._isMariaListening) {
       if(this.currentRoute == '/voice-recognition'){
         this.saveAnalysisText();
       }
@@ -152,7 +152,7 @@ export class VoiceRecognitionService implements OnInit {
     let isCalling = text.includes('oye') ||
                     text.includes('hey');
 
-    let isName = text.includes('mar');
+    let isName = text.includes('maria');
 
     return isCalling && isName;
   }
