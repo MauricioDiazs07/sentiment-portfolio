@@ -9,7 +9,8 @@ import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.
 })
 export class TextComponent implements OnInit {
   isStarted: boolean = false;
-  isPos: boolean = false;
+  isFunction: boolean = true;
+  isTextAnalyzed: boolean = true;
   lastAnalyzedText: string = '';
   currentText: string = '';
 
@@ -25,17 +26,11 @@ export class TextComponent implements OnInit {
   }
 
   sendTextData(text: string) {
-    this.sentimentService.getTextAnalysis(
-      text
-    ).subscribe(res => {
-      console.log("Texto:", text);
-      this.voiceRecService.reset();
-      this.isStarted = true;
-      this.isPos = res.isPos;
-      this.lastAnalyzedText = res.text;
-      this.voiceRecService.setAnalyzedText = false;
+    if (this.voiceRecService.isTextAnalyzed){
+      console.log("text function");
+
+      this.voiceRecService.getTextAnalysis(text);
     }
-    );
   }
 
 }

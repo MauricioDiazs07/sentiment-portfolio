@@ -109,7 +109,7 @@ export class VideoComponent implements OnInit, OnDestroy {
     if (this.takePicture) {
       this.takePicture = false;
       this.capture();
-      await this.delay(2000);
+      await this.delay(1000);
       this.takePicture = true;
     }
   }

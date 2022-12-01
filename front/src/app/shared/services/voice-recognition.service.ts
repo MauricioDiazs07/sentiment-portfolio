@@ -30,7 +30,7 @@ export class VoiceRecognitionService implements OnInit {
   isPos: boolean = false;
 
   // text properties
-  private isTextAnalyzed = new BehaviorSubject<boolean>(false);
+  isTextAnalyzed = false;
 
   constructor(
     private router: Router,
@@ -50,14 +50,6 @@ export class VoiceRecognitionService implements OnInit {
   ngOnInit(): void {
   }
 
-  get getAnalyzedText() {
-    return this.isTextAnalyzed.asObservable();
-  }
-
-  set setAnalyzedText(condition: boolean) {
-    this.isTextAnalyzed.next(condition);
-  }
-  
   init() {
     this.recognition.interimResults = true;
     this.recognition.lang = 'es-MX';
@@ -112,13 +104,15 @@ export class VoiceRecognitionService implements OnInit {
   startListening() {
     console.log("estoy escuchando");
     this.tempWords = '';
-    this._isMariaListening = !this._isMariaListening;
+    this._isMariaListening = true;
     console.log(this._isMariaListening);
   }
 
   reset(isInstruction: boolean = true): void {
     this.stopRecognition();
     this._isMariaListening = false;
+    this.isStarted = false;
+    this.lastAnalyzedText = '';
     this.tempWords = '';
     if (!isInstruction) return;
     this.analysisText = '';
@@ -126,9 +120,8 @@ export class VoiceRecognitionService implements OnInit {
 
   listen(): void {
     let text = this.normalize(this.tempWords);
-    this.getAnalyzedText.pipe(take(1), map(res => console.log("ANALZD", res)))
 
-    if (this.isUserCalling(text)) {
+    if (this.isCalling(text)) {
         this.startListening();
     }
     
@@ -145,16 +138,6 @@ export class VoiceRecognitionService implements OnInit {
 
     this.isInstruction(text);
 
-  }
-
-  isUserCalling(text: string): boolean {
-    
-    let isCalling = text.includes('oye') ||
-                    text.includes('hey');
-
-    let isName = text.includes('maria');
-
-    return isCalling && isName;
   }
 
   isNavigation(text: string):boolean {
@@ -224,23 +207,20 @@ export class VoiceRecognitionService implements OnInit {
     else if (text.includes('analiza') &&
              text.includes('texto')) 
     {
-      this.sentimentService.getTextAnalysis(
-        this.analysisText
-      ).subscribe(res => {
-        this.reset();
-        this.isStarted = true;
-        this.isPos = res.isPos;
-        this.lastAnalyzedText = res.text;
-      }
-      );
+      this.getTextAnalysis(this.analysisText);
     }
   }
 
   listenTextInstructions(text: string): void {
-    if (text.includes('analiza') &&
-        text.includes('texto'))
+    if (text.includes('borra') &&
+        text.includes('todo')) 
     {
-      this.isTextAnalyzed.next(true);
+      this.reset();
+    }
+    else if (text.includes('analiza') &&
+             text.includes('texto'))
+    {
+      this.isTextAnalyzed = true;
     }
   }
 
@@ -253,6 +233,19 @@ export class VoiceRecognitionService implements OnInit {
     console.log("HOLA VIDEO")
   }
 
+  getTextAnalysis(text: string): void {
+    this.sentimentService.getTextAnalysis(
+      text
+      ).subscribe(res => {
+      this.isTextAnalyzed = false;
+      this.reset();
+      this.isPos = res.isPos;
+      this.lastAnalyzedText = res.text;
+      this.isStarted = true;
+    }
+    );
+  }
+
   saveAnalysisText(): void {
     let dot = this.tempWords.length == 0 ? '' : '.';
     let firstLetter = this.tempWords.charAt(0);
@@ -262,6 +255,11 @@ export class VoiceRecognitionService implements OnInit {
 
     this.analysisText = this.analysisText + ' ' + tempWords + dot;
     this.tempWords = '';
+  }
+
+  isCalling(text: string): boolean {
+    const re = /(^|[\n\s])(hey|ey|ay|oye)[\s]+(maria)/;
+    return text.match(re) ? true : false;
   }
 
   private normalize(str: string): string {

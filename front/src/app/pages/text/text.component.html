@@ -17,14 +17,14 @@
             <input matInput #text>
         </mat-form-field>
     </form>
-    <div *ngIf="voiceRecService.getAnalyzedText | async">{{ sendTextData(text.value) }}</div>
+    <div *ngIf="voiceRecService.isTextAnalyzed">{{ sendTextData(text.value) }}</div>
 </div>
 
-<div *ngIf="isStarted"
-     [ngClass]="{'positive': isPos,
-                'negative': !isPos}">
-    <p>Texto analizado: {{ lastAnalyzedText }}</p>
-    <p>El sentimiento es {{ isPos ? 'positivo' : 'negativo' }}</p>
+<div *ngIf="voiceRecService.isStarted"
+     [ngClass]="{'positive': voiceRecService.isPos,
+                'negative': !voiceRecService.isPos}">
+    <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
+    <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
 
     <div></div>
 </div>
