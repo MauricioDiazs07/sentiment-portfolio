@@ -8,8 +8,8 @@ class pre_process():
         img_emociones = imread('./back/resources/video/emociones.png')
         tamano=120
         img_feliz = img_emociones[40:40+tamano, 130:130+tamano]
-        img_enojo = img_emociones[161:161+tamano, 259:259+tamano]
-        img_asco = img_emociones[282:282+tamano, 258:258+tamano]
+        img_asco = img_emociones[161:161+tamano, 259:259+tamano]
+        img_enojo = img_emociones[282:282+tamano, 258:258+tamano]
         img_miedo = img_emociones[40:40+tamano, 647:647+tamano]
         img_neutro = img_emociones[160:160+tamano, 388:388+tamano]
         img_sorpresa = img_emociones[281:281+tamano, 0:0+tamano]
