@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, jwt_required
 from core.texto.texto_bert import bert
@@ -26,21 +26,28 @@ app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 app.config["JWT_SECRET_KEY"] = "super-secret-1232342"
 
 jwt = JWTManager(app)
-cors = CORS(app)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 @app.get('/')
 def main():
     return "sentiment project"
 
-@app.post('/get-text-sentiment')
+@app.route('/api/sentiment/get-text-sentiment', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def get_text_sentiment():
     return textController.get_text_response()
-
-@app.post('/get-img-sentiment')
+    
+@app.post('/api/sentiment/get-img-sentiment')
+@cross_origin()
 def get_img_sentiment():
     return imgController.get_image_analysis()
 
+@app.after_request
+def after_request(response):
+    if not response.headers['Access-Control-Allow-Origin']:
+        response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
 if __name__ == '__main__':
-    HOST = os.environ.get("HOST", '0.0.0.0')
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host=HOST, port=port, debug=True)
+    port = os.getenv("PORT", default=5000)
+    app.run(port=port, debug=True)

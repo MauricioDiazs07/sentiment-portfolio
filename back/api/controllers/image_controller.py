@@ -21,7 +21,7 @@ class ImageController:
         
         imwrite(img_path, img)
 
-        f = open(img_path, 'r')
+        # f = open(img_path, 'r')
 
         # return send_file(f, mimetype='image/png')
         return send_file(img_response_path)
