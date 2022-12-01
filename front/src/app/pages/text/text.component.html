@@ -11,7 +11,7 @@
     <br>
     <p>Su texto:</p>
 
-    <form class="example-form">
+    <form class="example-form" (keydown.enter)="$event.preventDefault()">
         <mat-form-field class="example-full-width">
             <mat-label>Escriba su texto</mat-label>
             <input matInput #text>
@@ -20,11 +20,17 @@
     <div *ngIf="voiceRecService.isTextAnalyzed">{{ sendTextData(text.value) }}</div>
 </div>
 
-<div *ngIf="voiceRecService.isStarted"
-     [ngClass]="{'positive': voiceRecService.isPos,
-                'negative': !voiceRecService.isPos}">
-    <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
-    <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
-
-    <div></div>
+<div *ngIf="!voiceRecService.isLoading; else loading">
+    <div *ngIf="voiceRecService.isStarted"
+         [ngClass]="{'positive': voiceRecService.isPos,
+                    'negative': !voiceRecService.isPos}">
+        <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
+        <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
+    
+        <div></div>
+    </div>
 </div>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>

@@ -20,6 +20,7 @@ export class VoiceRecognitionService implements OnInit {
   isStopSpeechRecording: boolean = false;
   _isMariaListening: boolean = false;
   isHome: boolean = false;
+  isLoading: boolean = false;
   currentRoute: string = '';
   tempWords: string = '';
 
@@ -112,6 +113,7 @@ export class VoiceRecognitionService implements OnInit {
     this.stopRecognition();
     this._isMariaListening = false;
     this.isStarted = false;
+    this.isLoading = false;
     this.lastAnalyzedText = '';
     this.tempWords = '';
     if (!isInstruction) return;
@@ -208,6 +210,7 @@ export class VoiceRecognitionService implements OnInit {
              text.includes('texto')) 
     {
       this.getTextAnalysis(this.analysisText);
+      this.isLoading = true;
     }
   }
 
@@ -221,6 +224,7 @@ export class VoiceRecognitionService implements OnInit {
              text.includes('texto'))
     {
       this.isTextAnalyzed = true;
+      this.isLoading = true;
     }
   }
 
@@ -242,6 +246,7 @@ export class VoiceRecognitionService implements OnInit {
       this.isPos = res.isPos;
       this.lastAnalyzedText = res.text;
       this.isStarted = true;
+      this.isLoading = false;
     }
     );
   }

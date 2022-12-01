@@ -23,6 +23,25 @@ img {
     display: flex;
 }
 
+.msg-card {
+    width: 80%;
+    height: 3rem;
+    margin: 3rem auto 0 auto;
+    padding: auto;
+}
+
+.msg-card p {
+    margin-top: 0.8rem;
+}
+
+.warning {
+    background-color: rgb(255, 255, 162);
+}
+
+.not-file {
+    background-color: rgb(253, 135, 135);
+}
+
 @media (max-width: 600px) {
     .imgs {
         display: block;

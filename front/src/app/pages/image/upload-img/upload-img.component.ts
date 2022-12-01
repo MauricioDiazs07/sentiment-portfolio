@@ -11,6 +11,8 @@ export class UploadImgComponent implements OnInit {
   shortLink: any = "";
   originalLink: any = "";
   loading: boolean = false;
+  notFile: boolean = false;
+  imgFile: boolean = true;
   file!: File;
 
   constructor(
@@ -24,39 +26,50 @@ export class UploadImgComponent implements OnInit {
       this.file = event.target.files[0];
   }
 
-  onUpload() {
-      this.loading = !this.loading;
-      // console.log(this.file);
+  onUpload(): void {
+    this.notFile = this.file ? false : true;
 
-      this.sentimentService.getImgAnalysis(
-        this.file
-      ).subscribe(
-        (event: any) => {
-            if (typeof (event) === 'object') {
-              // console.log(event);
+    if (this.notFile) return;
 
-              var mimeType = this.file.type;
-              // console.log(mimeType);
-            
-              var originalReader = new FileReader();
-              var processedReader = new FileReader();
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+    const filePath = this.file.name;
+    this.imgFile = allowedExtensions.exec(filePath)
+                    ? true : false;
 
-              // original img
-              originalReader.readAsDataURL(this.file);
+    if (!this.imgFile) return;
 
-              originalReader.onload = (_event) => {
-                this.originalLink = originalReader.result;
-              }
+    this.loading = !this.loading;
 
-              // processed img
-              processedReader.readAsDataURL(event)
-              processedReader.onload = (_event) => {
-                this.shortLink = processedReader.result
-              }
+    
+    this.sentimentService.getImgAnalysis(
+      this.file
+    ).subscribe(
+      (event: any) => {
+          if (typeof (event) === 'object') {
+            // console.log(event);
 
-              this.loading = false;
+            var mimeType = this.file.type;
+            // console.log(mimeType);
+          
+            var originalReader = new FileReader();
+            var processedReader = new FileReader();
+
+            // original img
+            originalReader.readAsDataURL(this.file);
+
+            originalReader.onload = (_event) => {
+              this.originalLink = originalReader.result;
             }
-        }
-      );
+
+            // processed img
+            processedReader.readAsDataURL(event)
+            processedReader.onload = (_event) => {
+              this.shortLink = processedReader.result
+            }
+
+            this.loading = false;
+          }
+      }
+    );
   }
 }

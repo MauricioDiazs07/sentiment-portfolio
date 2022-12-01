@@ -13,11 +13,17 @@
     <p>{{ voiceRecService.analysisText }}</p>
 </div>
 
-<div *ngIf="voiceRecService.isStarted"
-     [ngClass]="{'positive': voiceRecService.isPos,
-                'negative': !voiceRecService.isPos}">
-    <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
-    <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
-
-    <div></div>
+<div *ngIf="!voiceRecService.isLoading; else loading"> 
+    <div *ngIf="voiceRecService.isStarted"
+         [ngClass]="{'positive': voiceRecService.isPos,
+                    'negative': !voiceRecService.isPos}">
+        <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
+        <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
+    
+        <div></div>
+    </div>
 </div>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
