@@ -20,14 +20,9 @@ class TextController:
 
         response = self.bert_model.predic(text)
 
-        isPos = response == 'pos'
+        isPos = response == 'Positive'
 
         return JsonResponse(HTTPStatus.OK, {
             'text': original_text,
             'isPos': isPos
         })
-
-        # return jsonify({
-        #     'text': original_text,
-        #     'isPos': isPos
-        # })

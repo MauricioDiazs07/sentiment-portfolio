@@ -17,9 +17,11 @@ export class SentimentAnalysisService {
   getTextAnalysis(
     text: string
   ){
+    const lang = localStorage.getItem('lang');
+    console.log(lang);
     const body = {
       'text': text,
-      'lang': 'es'
+      'lang': lang
     }
     const url = `${this.api_url}/get-text-sentiment`;
     const headers = this.getHeaders();
