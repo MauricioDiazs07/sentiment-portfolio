@@ -33,4 +33,9 @@ export class TextComponent implements OnInit {
     }
   }
 
+  setAnalyzedText() {
+    this.voiceRecService.isTextAnalyzed = true;
+    this.voiceRecService.isLoading = true;
+  }
+
 }

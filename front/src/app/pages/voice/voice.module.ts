@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { VoiceRoutingModule } from './voice-routing.module';
 import { VoiceComponent } from './voice.component';
 import { MaterialModule } from '@app/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { MaterialModule } from '@app/material.module';
   imports: [
     CommonModule,
     VoiceRoutingModule,
-    MaterialModule
+    MaterialModule,
+    TranslateModule
   ]
 })
 export class VoiceModule { }

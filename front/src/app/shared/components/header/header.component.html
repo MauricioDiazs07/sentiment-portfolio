@@ -1,3 +1,16 @@
 <mat-card>
-    <h2>Analisis de sentimientos</h2>
+    <h2>{{ 'header.sentiment' | translate }}</h2>
+
+    <span class="form-inline">
+        <select 
+            class="form-control"
+            #selectedLang
+            (change)="switchLanguage(selectedLang.value)">
+        <option *ngFor="let language of translate.getLangs()"
+            [value]="language"
+            [selected]="language === translate.currentLang">
+            {{ language }}
+        </option>
+        </select>
+    </span>
 </mat-card>

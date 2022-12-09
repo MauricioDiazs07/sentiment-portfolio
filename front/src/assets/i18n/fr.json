@@ -1,0 +1,50 @@
+{
+    "maria": {
+        "listening": "J'écoute"
+    },
+    "header": {
+        "sentiment": "Sentiment Analysis"
+    },
+    "main": {
+        "greeting": "Hi, I'm María",
+        "presentation": "I'm a sentiment recognition system",
+        "instruction": "To begin, say \"Hey, Maria\"",
+        "calling": {
+            "introduction": "Hi, user. How can I help you?",
+            "guide": "I can guide you to the following pages, just let me know.",
+            "video": "Video sentiment recognition",
+            "image": "Imagen sentiment recognition",
+            "voice": "Voice sentiment recognition",
+            "text": "Text sentiment recognition"
+        }
+    },
+    "video": {
+        "instructions": "In the next section, you can see the image captured by your camera where the current emotion will be classified.",
+        "original": "Original image",
+        "processed": "Image with sentiment"
+    },
+    "image": {
+        "instructions": "In the lower sections, you can upload the image to be analyzed.",
+        "start": "To get started, upload an image from your computer and send it.",
+        "wait": "Wait a few seconds and you will see the analysis on the screen",
+        "button": "Upload",
+        "original": "Original image",
+        "processed": "Resulting image",
+        "warning": "Please, upload an image to continue",
+        "notFile": "The file extension must be .jpg, .jpeg o .png"
+    },
+    "text": {
+        "instructions": "In the lower section, you will see written the text to be analyzed.",
+        "voiceStart": "To start writing, just say your text.",
+        "textStart": "To start writing, type your text.",
+        "clean": "To clean the section, say \"Hey, María, clean the screen\"",
+        "analyze": "To analyze the text, say \"Hey, María, analyze the text\"",
+        "stopListening": "To stop listening, say \"nothing\"",
+        "text": "Your text:",
+        "writeText": "Type your text",
+        "analyzedText": "Analyzed text: ",
+        "sentiment": "The sentiment is ",
+        "positive": "positive",
+        "negative": "negative"
+    }
+}

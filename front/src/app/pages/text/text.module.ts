@@ -5,6 +5,8 @@ import { TextRoutingModule } from './text-routing.module';
 import { TextComponent } from './text.component';
 import { MaterialModule } from '@app/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule }   from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     TextRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    TranslateModule
   ]
 })
 export class TextModule { }

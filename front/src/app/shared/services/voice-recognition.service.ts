@@ -1,7 +1,10 @@
 import { Injectable, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { getInstructions } from '@app/const/instructions';
+import { getLanguage } from '@app/const/languages';
+import { TranslateService } from '@ngx-translate/core';
 import { normalizeDiacritics } from 'normalize-text'
-import { BehaviorSubject, delay, filter, map, take } from 'rxjs';
+import { delay, filter } from 'rxjs';
 import { SentimentAnalysisService } from './sentiment-analysis.service';
 
 declare var  webkitSpeechRecognition: any;
@@ -31,12 +34,18 @@ export class VoiceRecognitionService implements OnInit {
   isPos: boolean = false;
 
   // text properties
-  isTextAnalyzed = false;
+  isTextAnalyzed: boolean = false;
+
+  // browser settings
+  isEdge: boolean = false;
 
   constructor(
     private router: Router,
     private sentimentService: SentimentAnalysisService,
+    public translate: TranslateService,
   ) {
+    this.isEdge = this.getBrowser();
+
     this.router.events.pipe(
       delay(10),
       filter((e) => e instanceof NavigationEnd)
@@ -52,11 +61,10 @@ export class VoiceRecognitionService implements OnInit {
   }
 
   init() {
+    const browserLanguage = window.navigator.language.substring(0, 2);
+
     this.recognition.interimResults = true;
-    this.recognition.lang = 'es-MX';
-    // this.recognition.lang = 'en-US';
-    // this.recognition.lang = 'de-DE';
-    // this.recognition.lang = 'fr-FR';
+    this.recognition.lang = getLanguage(browserLanguage);
 
     this.recognition.addEventListener('result', (e: any) => {
       const transcript = Array.from(e.results)
@@ -122,8 +130,10 @@ export class VoiceRecognitionService implements OnInit {
 
   listen(): void {
     let text = this.normalize(this.tempWords);
+    const lang = localStorage.getItem('lang');
+    const instructions = getInstructions(lang!);
 
-    if (this.isCalling(text)) {
+    if (this.isCalling(text, instructions.calling)) {
         this.startListening();
     }
     
@@ -134,21 +144,17 @@ export class VoiceRecognitionService implements OnInit {
       return;
     }
 
-    let isNavigation = this.isNavigation(text);
+    let isNavigation = this.isNavigation(text, instructions);
 
     if (isNavigation) return;
 
-    this.isInstruction(text);
+    this.isInstruction(text, instructions);
 
   }
 
-  isNavigation(text: string):boolean {
-    let instruction = text.includes('vamos') ||
-                      text.includes('llevame') ||
-                      text.includes('mandame') ||
-                      text.includes('ponme') ||
-                      text.includes('quiero') ||
-                      text.includes('enviame')
+  isNavigation(text: string, instructions: any):boolean {
+    let instruction = instructions.instruction
+                            .some((v: string) => text.includes(v));
 
     if (!instruction){
       return false;
@@ -181,7 +187,7 @@ export class VoiceRecognitionService implements OnInit {
     return true;
   }
 
-  isInstruction(text: string): void {
+  isInstruction(text: string, instructions: any): void {
     if (text.includes('nada')) {
       this.reset(false);
     }
@@ -252,7 +258,8 @@ export class VoiceRecognitionService implements OnInit {
   }
 
   saveAnalysisText(): void {
-    let dot = this.tempWords.length == 0 ? '' : '.';
+    let dot = this.tempWords.length != 0 && !this.isEdge 
+                ? '.' : '';
     let firstLetter = this.tempWords.charAt(0);
     firstLetter = firstLetter.toUpperCase();
     
@@ -262,12 +269,15 @@ export class VoiceRecognitionService implements OnInit {
     this.tempWords = '';
   }
 
-  isCalling(text: string): boolean {
-    const re = /(^|[\n\s])(hey|ey|ay|oye)[\s]+(maria)/;
+  isCalling(text: string, re: string): boolean {
     return text.match(re) ? true : false;
   }
 
   private normalize(str: string): string {
-    return normalizeDiacritics(str.toLowerCase());
+    return normalizeDiacritics(str.toLowerCase()).replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+  }
+
+  private getBrowser() {
+    return window.navigator.userAgent.toLocaleLowerCase().indexOf('edg') > -1;
   }
 }

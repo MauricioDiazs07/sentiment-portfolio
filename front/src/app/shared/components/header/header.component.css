@@ -9,3 +9,8 @@ mat-card {
 h2 {
     color: white;
 }
+
+span {
+    position: absolute;
+    right: 20px;
+}

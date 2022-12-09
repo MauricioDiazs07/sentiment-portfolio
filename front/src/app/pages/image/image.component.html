@@ -1,10 +1,10 @@
 <div>
-    <p *ngIf="voiceRecService._isMariaListening" class="maria-listens">Estoy escuchando</p>
+    <ng-content></ng-content>
     <br>
-    <p>En el apartado inferior, podrá subir la imagen que será analizada.</p>
+    <p>{{ 'image.instructions' | translate }}</p>
     <ul>
-        <li>Para comenzar, suba una imagen de su computadora y envíela.</li>
-        <li>Espere unos segundos y verá el análisis en pantalla</li>
+        <li>{{ 'image.start' | translate }}</li>
+        <li>{{ 'image.wait' | translate }}</li>
     </ul>
     <br>
     

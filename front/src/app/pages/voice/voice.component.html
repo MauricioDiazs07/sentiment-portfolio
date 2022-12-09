@@ -1,15 +1,15 @@
 <div>
-    <p *ngIf="voiceRecService._isMariaListening" class="maria-listens">Estoy escuchando</p>
+    <ng-content></ng-content>
     <br>
-    <h6>En el apartado inferior, verá escrito el texto que será analizado.</h6>
+    <h6>{{ 'text.instructions' | translate }}</h6>
     <ul>
-        <li>Para comenzar a escribir, sólo diga su texto.</li>
-        <li>Para limpiar la sección, diga "Oye, María, borra todo"</li>
-        <li>Para analizar el texto, diga "Oye, María, analiza el texto"</li>
-        <li>Para que deje de escuchar, diga "nada"</li>
+        <li>{{ 'text.voiceStart' | translate }}</li>
+        <li>{{ 'text.clean' | translate }}</li>
+        <li>{{ 'text.analyze' | translate }}</li>
+        <li>{{ 'text.stopListening' | translate }}</li>
     </ul>
     <br>
-    <p>Su texto:</p>
+    <p>{{ 'text.text' | translate }}</p>
     <p>{{ voiceRecService.analysisText }}</p>
 </div>
 
@@ -17,8 +17,8 @@
     <div *ngIf="voiceRecService.isStarted"
          [ngClass]="{'positive': voiceRecService.isPos,
                     'negative': !voiceRecService.isPos}">
-        <p>Texto analizado: {{ voiceRecService.lastAnalyzedText }}</p>
-        <p>El sentimiento es {{ voiceRecService.isPos ? 'positivo' : 'negativo' }}</p>
+        <p>{{ 'text.analyzedText' | translate }} {{ voiceRecService.lastAnalyzedText }}</p>
+        <p>{{ 'text.sentiment' | translate }} {{ voiceRecService.isPos ? 'text.positive' : 'text.negative' | translate }}</p>
     
         <div></div>
     </div>

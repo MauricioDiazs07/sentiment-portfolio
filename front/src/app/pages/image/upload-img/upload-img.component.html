@@ -7,7 +7,7 @@
     <button (click)="onUpload()" 
         class="btn btn-success"
         mat-raised-button color="primary">
-        Upload
+        {{ 'image.button' | translate }}
     </button>
 </div>
 
@@ -15,11 +15,11 @@
     *ngIf="shortLink">
     <div class="imgs" *ngIf="loading; else loading">
         <div>
-            <h2>Imagen original</h2>
+            <h2>{{ 'image.original' | translate }}</h2>
             <img src="{{ originalLink }}" alt="">
         </div>
         <div>
-            <h2>Imagen resultante</h2>
+            <h2>{{ 'image.processed' | translate }}</h2>
             <img src="{{ shortLink }}" alt="">
         </div>
     </div>
@@ -33,9 +33,9 @@
 </div>
 
 <mat-card class="warning msg-card" *ngIf="notFile">
-    <p>Por favor, suba una imagen para continuar</p>
+    <p>{{ 'image.warning' | translate }}</p>
 </mat-card>
 
 <mat-card class="not-file msg-card" *ngIf="!imgFile">
-    <p>El archivo debe ser de extensión .jpg, .jpeg o .png</p>
+    <p>{{ 'image.notFile' | translate }}</p>
 </mat-card>

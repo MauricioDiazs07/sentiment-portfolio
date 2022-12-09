@@ -5,6 +5,7 @@ import { ImageRoutingModule } from './image-routing.module';
 import { ImageComponent } from './image.component';
 import { UploadImgComponent } from './upload-img/upload-img.component';
 import { MaterialModule } from '@app/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { MaterialModule } from '@app/material.module';
   imports: [
     CommonModule,
     ImageRoutingModule,
-    MaterialModule
+    MaterialModule,
+    TranslateModule
   ]
 })
 export class ImageModule { }

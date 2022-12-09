@@ -1,3 +1,5 @@
 <app-header></app-header>
 <!-- <app-speech-to-text></app-speech-to-text> -->
-<router-outlet></router-outlet> 
+<router-outlet>
+    <p *ngIf="voiceRecService._isMariaListening" class="maria-listens">{{ 'maria.listening' | translate }}</p>
+</router-outlet>

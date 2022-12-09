@@ -1,20 +1,20 @@
 <div>
-    <p *ngIf="voiceRecService._isMariaListening" class="maria-listens">Estoy escuchando</p>
+    <ng-content></ng-content>
     <br>
-    <p>A continuación, podrá ver la imagen captada por su cámara, en donde se clasificará la emoción actual.</p>
+    <p>{{ 'video.instructions' | translate }}</p>
     <br>
 
     <div class="video-capture">
         <!-- <video id="video" autoplay #video [width]="width" [height]="height"></video> -->
         <div class="original">
-            <h2>Imagen original</h2>
+            <h2>{{ 'video.original' | translate }}</h2>
             <video id="video" autoplay #video></video>
             <canvas id="canvas" #canvas [width]="width" [height]="height" class="hide"></canvas>
         </div>
         
         <!-- <canvas id="canvas" #canvas class="hide"></canvas> -->
         <div *ngIf="shortLink">
-            <h2>Imagen con sentimiento</h2>
+            <h2>{{ 'video.processed' | translate }}</h2>
             <img src="{{ shortLink }}" alt="">
         </div>
     </div>

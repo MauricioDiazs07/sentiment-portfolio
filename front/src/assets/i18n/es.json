@@ -1,0 +1,50 @@
+{
+    "maria": {
+        "listening": "Estoy escuchando"
+    },
+    "header": {
+        "sentiment": "Análisis de sentimientos"
+    },
+    "main": {
+        "greeting": "Hola, soy María",
+        "presentation": "Soy un sistema de reconocimiento de sentimientos",
+        "instruction": "Para comenzar, diga \"oye, María\"",
+        "calling": {
+            "introduction": "Hola, usuario, ¿en qué puedo ayudarte?",
+            "guide": "Puedo guiarte a las siguientes páginas, sólo tienes que indicármelo.",
+            "video": "Reconocimiento de sentimiento en video",
+            "image": "Reconocimiento de sentimiento en imagen",
+            "voice": "Reconocimiento de sentimiento en voz",
+            "text": "Reconocimiento de sentimiento en texto"
+        }
+    },
+    "video": {
+        "instructions": "A continuación, podrá ver la imagen captada por su cámara en donde se clasificará la emoción actual.",
+        "original": "Imagen original",
+        "processed": "Imagen con sentimiento"
+    },
+    "image": {
+        "instructions": "En el apartado inferior, podrá subir la imagen que será analizada.",
+        "start": "Para comenzar, suba una imagen de su computadora y envíela.",
+        "wait": "Espere unos segundos y verá el análisis en pantalla",
+        "button": "Subir",
+        "original": "Imagen original",
+        "processed": "Imagen resultante",
+        "warning": "Por favor, suba una imagen para continuar",
+        "notFile": "El archivo debe ser de extensión .jpg, .jpeg o .png"
+    },
+    "text": {
+        "instructions": "En el apartado inferior, verá escrito el texto que será analizado.",
+        "voiceStart": "Para comenzar a escribir, sólo diga su texto.",
+        "textStart": "Para comenzar a escribir, escriba su texto.",
+        "clean": "Para limpiar la sección, diga \"Oye, María, borra todo\"",
+        "analyze": "Para analizar el texto, diga \"Oye, María, analiza el texto\"",
+        "stopListening": "Para que deje de escuchar, diga \"nada\"",
+        "text": "Su texto:",
+        "writeText": "Escriba su texto",
+        "analyzedText": "Texto analizado:",
+        "sentiment": "El sentimiento es",
+        "positive": "positivo",
+        "negative": "negativo"
+    }
+}
