@@ -1,37 +1,33 @@
-import os.path
-import numpy as np
-import tensorflow as tf
-import ktrain 
-from ktrain import text
+from transformers import BertTokenizer, TFBertForSequenceClassification
+#from transformers import InputExample, InputFeatures
+from tensorflow import nn
+from tensorflow import argmax
+from tensorflow import keras
 
 class bert():
+    def __init__(self,modelo_bert) -> None:
+        self.model = modelo_bert.model
+        self.tokenizer = modelo_bert.tokenizer 
+    def predic(self,sentences2predict:list):
+        tf_batch = self.tokenizer(sentences2predict, max_length=128, padding=True, truncation=True, return_tensors='tf')
+        tf_outputs = self.model(tf_batch)
+        tf_predictions = nn.softmax(tf_outputs[0], axis=-1)
+        labels = ['Negative','Positive']
+        label = argmax(tf_predictions, axis=1)
+        label = label.numpy()
+        #for i in range(len(sentences2predict)):
+        #  print(sentences2predict[i], ": \n", labels[label[i]])
+        predict = []
+        for i,x in enumerate(label):
+            predict.append(labels[x])
+        return predict
+
+class load_bert():
     def __init__(self) -> None:
-        model_path = './back/resources/models/model.h5'
-        dataset = tf.keras.utils.get_file(fname="aclImdb_v1.tar.gz",
-                                        origin="http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz",
-                                        extract=True)
-        ##datatraining
-        IMBD_DATADIR = os.path.join(os.path.dirname(dataset), 'aclImdb')
-        #print(os.path.join(dataset))
-        #print(IMBD_DATADIR)
-        # we need the following variables
-        (x_train, y_train), (x_test, y_test), preproc = text.texts_from_folder(datadir=IMBD_DATADIR,
-                                                                            classes=['pos', 'neg'],
-                                                                            maxlen=500,
-                                                                            train_test_names=['train', 'test'],
-                                                                            preprocess_mode='bert')
-        # collect bert model returned by the text_classifier
-        model = text.text_classifier(name='bert',
-                                    train_data=(x_train, y_train),
-                                    preproc=preproc)
-        # multilabel = false, because we are using just two classes
-        # construct the learner instance
-        learner = ktrain.get_learner(model=model,
-                                    train_data=(x_train, y_train),
-                                    val_data=(x_test, y_test),
-                                    batch_size=6) # because our maximum sequence length is 500
-        learner.load_model(model_path)
-        self.predictor = ktrain.get_predictor(learner.model, preproc)
-        #self.predictor.get_classes()
-    def predic(self,text):
-        return self.predictor.predict(text)
+        """Descargar modelo"""
+        self.model = TFBertForSequenceClassification.from_pretrained("bert-base-uncased")
+        self.model.compile(optimizer=keras.optimizers.Adam(learning_rate=3e-5, epsilon=1e-08, clipnorm=1.0), 
+              loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True), 
+              metrics=[keras.metrics.SparseCategoricalAccuracy('accuracy')])
+        self.tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+        self.model.load_weights('./back/resources/models/model_weights_BERT')
