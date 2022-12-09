@@ -11,13 +11,16 @@
     <br>
     <p>{{ 'text.text' | translate }}</p>
 
-    <form class="example-form" (keydown.enter)="setAnalyzedText()">
+    <form class="example-form" (keydown.enter)="setAnalyzedText()" [formGroup]="sentimentForm">
         <mat-form-field class="example-full-width">
             <mat-label>{{ 'text.writeText' | translate }}</mat-label>
-            <input matInput #text>
+            <input matInput #text id="text" [formControlName]="'text'" required>
         </mat-form-field>
+        <mat-card class="msg-card" *ngIf="error && submittedForm">
+            <p>{{ 'text.emptyText' | translate }}</p>
+        </mat-card>
     </form>
-    <div *ngIf="voiceRecService.isTextAnalyzed">{{ sendTextData(text.value) }}</div>
+    <div *ngIf="voiceRecService.isTextAnalyzed && !error">{{ sendTextData(text.value) }}</div>
 </div>
 
 <div *ngIf="!voiceRecService.isLoading; else loading">

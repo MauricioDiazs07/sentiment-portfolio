@@ -11,6 +11,10 @@
     <br>
     <p>{{ 'text.text' | translate }}</p>
     <p>{{ voiceRecService.analysisText }}</p>
+
+    <mat-card class="msg-card" *ngIf="voiceRecService.emptyText">
+        <p>{{ 'text.emptyText' | translate }}</p>
+    </mat-card>
 </div>
 
 <div *ngIf="!voiceRecService.isLoading; else loading"> 

@@ -1,0 +1,11 @@
+.msg-card {
+    width: 80%;
+    height: 3rem;
+    margin: 3rem auto 0 auto;
+    padding: auto;
+    background-color: rgb(255, 255, 162);
+}
+
+.msg-card p {
+    margin-top: 0.8rem;
+}

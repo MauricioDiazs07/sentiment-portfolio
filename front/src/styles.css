@@ -43,3 +43,10 @@ mat-spinner {
     background-repeat: no-repeat, no-repeat;
     background-size: cover;
 }
+
+.msg-card {
+    width: 80%;
+    height: 3rem;
+    margin: 3rem auto 0 auto;
+    padding: auto;
+}

@@ -40,6 +40,7 @@
         "clean": "Para limpiar la sección, diga \"Oye, María, borra todo\"",
         "analyze": "Para analizar el texto, diga \"Oye, María, analiza el texto\"",
         "stopListening": "Para que deje de escuchar, diga \"nada\"",
+        "emptyText": "El texto no puede estar vacío",
         "text": "Su texto:",
         "writeText": "Escriba su texto",
         "analyzedText": "Texto analizado:",

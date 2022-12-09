@@ -30,6 +30,7 @@ export class VoiceRecognitionService implements OnInit {
   // voice properties
   analysisText: string = '';
   lastAnalyzedText: string = '';
+  emptyText: boolean = false;
   isStarted: boolean = false;
   isPos: boolean = false;
 
@@ -122,6 +123,7 @@ export class VoiceRecognitionService implements OnInit {
     this._isMariaListening = false;
     this.isStarted = false;
     this.isLoading = false;
+    this.emptyText = false;
     this.lastAnalyzedText = '';
     this.tempWords = '';
     if (!isInstruction) return;
@@ -215,6 +217,9 @@ export class VoiceRecognitionService implements OnInit {
     else if (text.includes('analiza') &&
              text.includes('texto')) 
     {
+      this.emptyText = this.analysisText.length === 0;
+      if (this.emptyText) return;
+
       this.getTextAnalysis(this.analysisText);
       this.isLoading = true;
     }
@@ -247,13 +252,13 @@ export class VoiceRecognitionService implements OnInit {
     this.sentimentService.getTextAnalysis(
       text
       ).subscribe(res => {
-      this.isTextAnalyzed = false;
-      this.reset();
-      this.isPos = res.isPos;
-      this.lastAnalyzedText = res.text;
-      this.isStarted = true;
-      this.isLoading = false;
-    }
+        this.isTextAnalyzed = false;
+        this.reset();
+        this.isPos = res.isPos;
+        this.lastAnalyzedText = res.text;
+        this.isStarted = true;
+        this.isLoading = false;
+      }
     );
   }
 

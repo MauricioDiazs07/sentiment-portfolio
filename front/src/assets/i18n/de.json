@@ -40,6 +40,7 @@
         "clean": "To clean the section, say \"Hey, María, clean the screen\"",
         "analyze": "To analyze the text, say \"Hey, María, analyze the text\"",
         "stopListening": "To stop listening, say \"nothing\"",
+        "emptyText": "The field can't be empty",
         "text": "Your text:",
         "writeText": "Type your text",
         "analyzedText": "Analyzed text: ",
