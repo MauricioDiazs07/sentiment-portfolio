@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, jwt_required
-from core.texto.texto_bert import bert
+from core.texto.texto_bert import bert, load_bert
 from core.traductor.traductor import traductor_es_en
 from api.controllers.text_controller import TextController
 from api.controllers.image_controller import ImageController
@@ -10,7 +10,8 @@ import tensorflow as tf
 import os
 
 ### models
-bert = bert()
+model_bert = load_bert()
+bert = bert(model_bert)
 translate = traductor_es_en()
 
 faceClassif = CascadeClassifier('./back/resources/models/haarcascade_frontalface_default.xml')
