@@ -1,51 +1,51 @@
 {
     "maria": {
-        "listening": "Ich höre"
+        "hören": "Ich höre"
     },
     "header": {
         "sentiment": "Sentiment Analysis"
     },
     "main": {
-        "greeting": "Hi, I'm María",
-        "presentation": "I'm a sentiment recognition system",
-        "instruction": "To begin, say \"Hey, Maria\"",
+        "greeting": "Hallo, ich bin María",
+        "Präsentation": "Ich bin ein Stimmungserkennungssystem",
+        "instruction": "Um zu beginnen, sagen Sie \"Hallo, Maria\"",
         "calling": {
-            "introduction": "Hi, user. How can I help you?",
-            "guide": "I can guide you to the following pages, just let me know.",
-            "video": "Video sentiment recognition",
-            "image": "Imagen sentiment recognition",
-            "voice": "Voice sentiment recognition",
-            "text": "Text sentiment recognition"
+            "Einleitung": "Hallo, Benutzer. Wie kann ich dir helfen?",
+            "guide": "Ich kann Sie zu den folgenden Seiten führen, lassen Sie es mich einfach wissen.",
+            "video": "Video Stimmungserkennung",
+            "Bild": "Imagen Stimmungserkennung",
+            "Stimme": "Stimmungserkennung für Sprache",
+            "Text": "Text-Stimmungserkennung"
         }
     },
     "video": {
-        "instructions": "In the next section, you can see the image captured by your camera where the current emotion will be classified.",
-        "original": "Original image",
-        "processed": "Image with sentiment"
+        "instructions": "Im nächsten Abschnitt sehen Sie das von Ihrer Kamera aufgenommene Bild, in dem die aktuelle Emotion klassifiziert wird.",
+        "Original": "Originalbild",
+        "verarbeitet": "Bild mit Emotion"
     },
-    "image": {
-        "instructions": "In the lower sections, you can upload the image to be analyzed.",
-        "start": "To get started, upload an image from your computer and send it.",
-        "wait": "Wait a few seconds and you will see the analysis on the screen",
-        "button": "Upload",
-        "original": "Original image",
-        "processed": "Resulting image",
-        "warning": "Please, upload an image to continue",
-        "notFile": "The file extension must be .jpg, .jpeg o .png"
+    "Bild": {
+        "instructions": "In den unteren Abschnitten können Sie das zu analysierende Bild hochladen.",
+        "start": "Um loszulegen, laden Sie ein Bild von Ihrem Computer hoch und senden Sie es.",
+        "wait": "Warten Sie ein paar Sekunden und Sie werden die Analyse auf dem Bildschirm sehen",
+        "button": "Hochladen",
+        "Original": "Originalbild",
+        "Verarbeitet": "Resultierendes Bild",
+        "Warnung": "Bitte, laden Sie ein Bild hoch, um fortzufahren",
+        "notFile": "Die Dateierweiterung muss .jpg, .jpeg oder .png sein"
     },
     "text": {
-        "instructions": "In the lower section, you will see written the text to be analyzed.",
-        "voiceStart": "To start writing, just say your text.",
-        "textStart": "To start writing, type your text.",
-        "clean": "To clean the section, say \"Hey, María, clean the screen\"",
-        "analyze": "To analyze the text, say \"Hey, María, analyze the text\"",
-        "stopListening": "To stop listening, say \"nothing\"",
-        "emptyText": "The field can't be empty",
-        "text": "Your text:",
-        "writeText": "Type your text",
-        "analyzedText": "Analyzed text: ",
-        "sentiment": "The sentiment is ",
-        "positive": "positive",
-        "negative": "negative"
+        "instructions": "Im unteren Bereich sehen Sie den zu analysierenden Text.",
+        "voiceStart": "Um mit dem Schreiben zu beginnen, sagen Sie einfach Ihren Text.",
+        "textStart": "Um mit dem Schreiben zu beginnen, geben Sie Ihren Text ein.",
+        "clean": "Um den Abschnitt zu säubern, sagen Sie \"Hey, Maria, säubere den Bildschirm\"",
+        "analyze": "Um den Text zu analysieren, sagen Sie \"Hey, María, analysiere den Text\"",
+        "stopListening": "Um das Zuhören zu beenden, sagen Sie \"nichts\"",
+        "emptyText": "Das Feld darf nicht leer sein",
+        "text": "Ihr Text:",
+        "writeText": "Geben Sie Ihren Text ein",
+        "analyzedText": "Analysierter Text: ",
+        "sentiment": "Die Stimmung ist ",
+        "positiv": "positiv",
+        "negativ": "negativ"
     }
 }

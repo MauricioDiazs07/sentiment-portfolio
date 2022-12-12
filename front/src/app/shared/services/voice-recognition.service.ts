@@ -26,6 +26,7 @@ export class VoiceRecognitionService implements OnInit {
   isLoading: boolean = false;
   currentRoute: string = '';
   tempWords: string = '';
+  instructions: any;
 
   // voice properties
   analysisText: string = '';
@@ -56,16 +57,23 @@ export class VoiceRecognitionService implements OnInit {
       console.log(this.currentRoute);
       this.isHome = event.url === '/';
     })
+    
+    const lang = localStorage.getItem('lang');
+    this.instructions = getInstructions(lang!);
   }
 
   ngOnInit(): void {
   }
 
   init() {
-    const browserLanguage = window.navigator.language.substring(0, 2);
+    let lang = localStorage.getItem('lang');
+
+    if (!lang) {
+      lang = window.navigator.language.substring(0, 2);
+    }
 
     this.recognition.interimResults = true;
-    this.recognition.lang = getLanguage(browserLanguage);
+    this.recognition.lang = getLanguage(lang);
 
     this.recognition.addEventListener('result', (e: any) => {
       const transcript = Array.from(e.results)
@@ -132,65 +140,55 @@ export class VoiceRecognitionService implements OnInit {
 
   listen(): void {
     let text = this.normalize(this.tempWords);
-    const lang = localStorage.getItem('lang');
-    const instructions = getInstructions(lang!);
 
-    if (this.isCalling(text, instructions.calling)) {
+    if (this.isCalling(text)) {
         this.startListening();
     }
     
     if (!this._isMariaListening) {
-      if(this.currentRoute == '/voice-recognition'){
-        this.saveAnalysisText();
-      }
+      this.saveAnalysisText();
       return;
     }
 
-    let isNavigation = this.isNavigation(text, instructions);
+    let isNavigation = this.isNavigation(text);
 
     if (isNavigation) return;
-
-    this.isInstruction(text, instructions);
+    
+    this.isInstruction(text);
 
   }
 
-  isNavigation(text: string, instructions: any):boolean {
-    let instruction = instructions.instruction
-                            .some((v: string) => text.includes(v));
+  isNavigation(text: string):boolean {
 
-    if (!instruction){
+    if (text.match(this.instructions.pages.main)) {
+      this.reset();
+      this.router.navigate(['/']);
+    }
+    else if (text.match(this.instructions.pages.video)) {
+      this.reset();
+      this.router.navigate(['/video-recognition']);
+    }
+    else if (text.match(this.instructions.pages.image)) {
+      this.reset();
+      this.router.navigate(['/image-recognition']);
+    }
+    else if (text.match(this.instructions.pages.text)) {
+      this.reset();
+      this.router.navigate(['/text-recognition']);
+    }
+    else if (text.match(this.instructions.pages.voice)) {
+      this.reset();
+      this.router.navigate(['/voice-recognition']);
+    }
+    else {
       return false;
     }
-
-    let route = '';
-
-    if (text.includes('principal') ||
-        text.includes('regresar') ||
-        text.includes('menu')) {
-      route = '/';
-    }
-    else if (text.includes('video')) {
-      route = '/video-recognition';
-    }
-    else if (text.includes('imagen')) {
-      route = '/image-recognition';
-    }
-    else if (text.includes('texto')) {
-      route = '/text-recognition';
-    }
-    else if (text.includes('voz') ||
-             text.includes('vos')) {
-      route = '/voice-recognition';
-    }
-
-    this.reset();
-    this.router.navigate([route]);
 
     return true;
   }
 
-  isInstruction(text: string, instructions: any): void {
-    if (text.includes('nada')) {
+  isInstruction(text: string): void {
+    if (text.match(this.instructions.stopListening)) {
       this.reset(false);
     }
 
@@ -200,55 +198,47 @@ export class VoiceRecognitionService implements OnInit {
     else if (this.currentRoute === '/text-recognition' ) {
       this.listenTextInstructions(text);
     }
-    else if (this.currentRoute === '/image-recognition') {
-      this.listenImageInstructions(text);
-    }
-    else if (this.currentRoute === '/video-recognition') {
-      this.listenVideoInstructions(text);
+    else {
+      this.listenGeneralInstructions(text);
     }
   }
 
   listenVoiceInstructions(text: string): void {
-    if (text.includes('borra') &&
-        text.includes('todo')) 
+    if (text.match(this.instructions.text.clean)) 
     {
       this.reset();
     }
-    else if (text.includes('analiza') &&
-             text.includes('texto')) 
+    else if (text.match(this.instructions.text.analyze)) 
     {
-      this.emptyText = this.analysisText.length === 0;
-      if (this.emptyText) return;
-
+      this.emptyText = this.analysisText.replace(' ', '').length === 0;
+      if (this.emptyText) {
+        this._isMariaListening = false;
+        this.isStarted = false;
+        return;
+      }
+      
       this.getTextAnalysis(this.analysisText);
-      this.isLoading = true;
     }
   }
 
   listenTextInstructions(text: string): void {
-    if (text.includes('borra') &&
-        text.includes('todo')) 
+    if (text.match(this.instructions.text.clean)) 
     {
       this.reset();
     }
-    else if (text.includes('analiza') &&
-             text.includes('texto'))
+    else if (text.match(this.instructions.text.analyze))
     {
       this.isTextAnalyzed = true;
-      this.isLoading = true;
     }
   }
 
-  listenImageInstructions(text: string): void {
-    console.log("HOLA IMAGEN")
-
-  }
-
-  listenVideoInstructions(text: string): void {
-    console.log("HOLA VIDEO")
+  listenGeneralInstructions(text: string): void {
+    console.log("HOLA GENERAL");
   }
 
   getTextAnalysis(text: string): void {
+    
+    this.isLoading = true;
     this.sentimentService.getTextAnalysis(
       text
       ).subscribe(res => {
@@ -274,8 +264,8 @@ export class VoiceRecognitionService implements OnInit {
     this.tempWords = '';
   }
 
-  isCalling(text: string, re: string): boolean {
-    return text.match(re) ? true : false;
+  isCalling(text: string): boolean {
+    return text.match(this.instructions.calling) ? true : false;
   }
 
   private normalize(str: string): string {

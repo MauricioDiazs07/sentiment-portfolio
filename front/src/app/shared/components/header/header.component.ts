@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { getInstructions } from '@app/const/instructions';
 import { getLanguage } from '@app/const/languages';
 import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
     const language = getLanguage(lang);
     this.voiceRecService.recognition.lang = language;
     this.translate.use(lang);
+    this.voiceRecService.instructions = getInstructions(lang);
     this.voiceRecService.reset();
   }
 }

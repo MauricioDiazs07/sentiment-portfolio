@@ -22,7 +22,7 @@
          [ngClass]="{'positive': voiceRecService.isPos,
                     'negative': !voiceRecService.isPos}">
         <p>{{ 'text.analyzedText' | translate }} {{ voiceRecService.lastAnalyzedText }}</p>
-        <p>{{ 'text.sentiment' | translate }} {{ voiceRecService.isPos ? 'text.positive' : 'text.negative' | translate }}</p>
+        <p>{{ 'text.sentiment' | translate }} {{ (voiceRecService.isPos ? 'text.positive' : 'text.negative') | translate }}</p>
     
         <div></div>
     </div>

@@ -16,6 +16,7 @@ export class TextComponent implements OnInit {
   lastAnalyzedText: string = '';
   currentText: string = '';
   sentimentForm!: FormGroup;
+  emptyText: any;
 
   constructor(
     public voiceRecService: VoiceRecognitionService,
@@ -31,15 +32,17 @@ export class TextComponent implements OnInit {
     })
   }
 
-  sendTextData(text: string) {
-    if (this.voiceRecService.isTextAnalyzed){
-      console.log("text function");
+  sendTextData(text: string):void {
+    const emptyText = text.replace(" ", ""). length === 0;
+    
+    if (this.voiceRecService.isTextAnalyzed && !emptyText) {
 
       this.voiceRecService.getTextAnalysis(text);
     }
   }
 
-  setAnalyzedText() {
+  setAnalyzedText():void {
+    this.voiceRecService.reset();
     this.error = this.sentimentForm.get('text')?.hasError('required')!;
     this.submittedForm = true;
 

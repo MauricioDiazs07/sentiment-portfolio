@@ -16,7 +16,7 @@
             <mat-label>{{ 'text.writeText' | translate }}</mat-label>
             <input matInput #text id="text" [formControlName]="'text'" required>
         </mat-form-field>
-        <mat-card class="msg-card" *ngIf="error && submittedForm">
+        <mat-card class="msg-card" *ngIf="(error && submittedForm) || voiceRecService.emptyText">
             <p>{{ 'text.emptyText' | translate }}</p>
         </mat-card>
     </form>
@@ -28,7 +28,7 @@
          [ngClass]="{'positive': voiceRecService.isPos,
                     'negative': !voiceRecService.isPos}">
         <p>{{ 'text.analyzedText' | translate }} {{ voiceRecService.lastAnalyzedText }}</p>
-        <p>{{ 'text.sentiment' }} {{ voiceRecService.isPos ? 'text.positive': 'text.negative' | translate }}</p>
+        <p>{{ 'text.sentiment' | translate }} {{ (voiceRecService.isPos ? 'text.positive': 'text.negative') | translate }}</p>
     
         <div></div>
     </div>

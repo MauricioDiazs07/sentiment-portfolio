@@ -18,7 +18,6 @@ export class SentimentAnalysisService {
     text: string
   ){
     const lang = localStorage.getItem('lang');
-    console.log(lang);
     const body = {
       'text': text,
       'lang': lang
