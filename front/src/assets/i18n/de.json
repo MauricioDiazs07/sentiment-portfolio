@@ -1,36 +1,36 @@
 {
     "maria": {
-        "hören": "Ich höre"
+        "listening": "Ich höre"
     },
     "header": {
         "sentiment": "Sentiment Analysis"
     },
     "main": {
         "greeting": "Hallo, ich bin María",
-        "Präsentation": "Ich bin ein Stimmungserkennungssystem",
+        "presentation": "Ich bin ein Stimmungserkennungssystem",
         "instruction": "Um zu beginnen, sagen Sie \"Hallo, Maria\"",
         "calling": {
-            "Einleitung": "Hallo, Benutzer. Wie kann ich dir helfen?",
+            "introduction": "Hallo, Benutzer. Wie kann ich dir helfen?",
             "guide": "Ich kann Sie zu den folgenden Seiten führen, lassen Sie es mich einfach wissen.",
             "video": "Video Stimmungserkennung",
-            "Bild": "Imagen Stimmungserkennung",
-            "Stimme": "Stimmungserkennung für Sprache",
-            "Text": "Text-Stimmungserkennung"
+            "image": "Imagen Stimmungserkennung",
+            "voice": "Stimmungserkennung für Sprache",
+            "text": "Text-Stimmungserkennung"
         }
     },
     "video": {
         "instructions": "Im nächsten Abschnitt sehen Sie das von Ihrer Kamera aufgenommene Bild, in dem die aktuelle Emotion klassifiziert wird.",
-        "Original": "Originalbild",
-        "verarbeitet": "Bild mit Emotion"
+        "original": "Originalbild",
+        "processed": "Bild mit Emotion"
     },
-    "Bild": {
+    "image": {
         "instructions": "In den unteren Abschnitten können Sie das zu analysierende Bild hochladen.",
         "start": "Um loszulegen, laden Sie ein Bild von Ihrem Computer hoch und senden Sie es.",
         "wait": "Warten Sie ein paar Sekunden und Sie werden die Analyse auf dem Bildschirm sehen",
         "button": "Hochladen",
-        "Original": "Originalbild",
-        "Verarbeitet": "Resultierendes Bild",
-        "Warnung": "Bitte, laden Sie ein Bild hoch, um fortzufahren",
+        "original": "Originalbild",
+        "processed": "Resultierendes Bild",
+        "warning": "Bitte, laden Sie ein Bild hoch, um fortzufahren",
         "notFile": "Die Dateierweiterung muss .jpg, .jpeg oder .png sein"
     },
     "text": {
@@ -45,7 +45,7 @@
         "writeText": "Geben Sie Ihren Text ein",
         "analyzedText": "Analysierter Text: ",
         "sentiment": "Die Stimmung ist ",
-        "positiv": "positiv",
-        "negativ": "negativ"
+        "positive": "positiv",
+        "negative": "negativ"
     }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getUtterances } from '@app/const/utterance';
+import { SpeechSynthesisService } from '@app/shared/services/speech-synthesis.service';
 import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.service';
 
 @Component({
@@ -20,6 +22,7 @@ export class TextComponent implements OnInit {
 
   constructor(
     public voiceRecService: VoiceRecognitionService,
+    private speechSynthesisService: SpeechSynthesisService,
     private fb: FormBuilder,
   ) {
     this.voiceRecService.init();
@@ -30,6 +33,11 @@ export class TextComponent implements OnInit {
     this.sentimentForm = this.fb.group({
       text: ["", [Validators.required]]
     })
+
+    const lang = this.speechSynthesisService.lang;
+    const utterance = getUtterances(lang);
+
+    this.speechSynthesisService.speak(utterance.text);
   }
 
   sendTextData(text: string):void {

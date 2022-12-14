@@ -1,6 +1,6 @@
 {
     "maria" : {
-        "J'écoute" : "J'écoute"
+        "listening" : "J'écoute"
     },
     "header" : {
         "sentiment" : "Analyse des sentiments"
@@ -9,7 +9,7 @@
         "greeting" : "Salut, je suis María",
         "presentation" : "Je suis un système de reconnaissance de sentiments",
         "instruction" : "Pour commencer, dites \"Salut, Maria\"",
-        "appel" : {
+        "calling" : {
             "introduction" : "Bonjour, utilisateur. Comment puis-je vous aider ?",
             "guide" : "Je peux vous guider vers les pages suivantes, dites-le moi",
             "video" : "Reconnaissance de sentiments par vidéo",
@@ -27,7 +27,7 @@
         "instructions" : "Dans les sections inférieures, vous pouvez télécharger l'image à analyser",
         "start" : "Pour commencer, téléchargez une image depuis votre ordinateur et envoyez-la",
         "wait" : "Attendez quelques secondes et vous verrez l'analyse sur l'écran",
-        "bouton" : "Télécharger",
+        "button" : "Télécharger",
         "original" : "Image originale",
         "processed" : "Image résultante",
         "warning" : "Veuillez télécharger une image pour continuer",

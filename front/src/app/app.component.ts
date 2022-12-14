@@ -16,10 +16,13 @@ export class AppComponent {
     public voiceRecService: VoiceRecognitionService
   ) {
     const languages = getAllLanguages();
-    const browserLanguage = window.navigator.language.substring(0, 2);
-    localStorage.setItem('lang', browserLanguage);
+    let lang = localStorage.getItem('lang');
+    if (!lang) {
+      lang = window.navigator.language.substring(0, 2);
+    }
+    localStorage.setItem('lang', lang);
 
     translate.addLangs(languages);
-    translate.setDefaultLang(browserLanguage);
+    translate.setDefaultLang(lang);
   }
 }

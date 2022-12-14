@@ -2,10 +2,12 @@ import { Injectable, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { getInstructions } from '@app/const/instructions';
 import { getLanguage } from '@app/const/languages';
+import { getUtterances } from '@app/const/utterance';
 import { TranslateService } from '@ngx-translate/core';
 import { normalizeDiacritics } from 'normalize-text'
 import { delay, filter } from 'rxjs';
-import { SentimentAnalysisService } from './sentiment-analysis.service';
+import { SentimentAnalysisService } from '@shared/services/sentiment-analysis.service';
+import { SpeechSynthesisService } from '@shared/services/speech-synthesis.service';
 
 declare var  webkitSpeechRecognition: any;
 
@@ -27,6 +29,7 @@ export class VoiceRecognitionService implements OnInit {
   currentRoute: string = '';
   tempWords: string = '';
   instructions: any;
+  utterances: any;
 
   // voice properties
   analysisText: string = '';
@@ -44,6 +47,7 @@ export class VoiceRecognitionService implements OnInit {
   constructor(
     private router: Router,
     private sentimentService: SentimentAnalysisService,
+    private speechSynthesisService: SpeechSynthesisService,
     public translate: TranslateService,
   ) {
     this.isEdge = this.getBrowser();
@@ -60,6 +64,7 @@ export class VoiceRecognitionService implements OnInit {
     
     const lang = localStorage.getItem('lang');
     this.instructions = getInstructions(lang!);
+    this.utterances = getUtterances(lang!);
   }
 
   ngOnInit(): void {
@@ -120,6 +125,7 @@ export class VoiceRecognitionService implements OnInit {
   }
 
   startListening() {
+    this.speechSynthesisService.speak("Estoy escuchando");
     console.log("estoy escuchando");
     this.tempWords = '';
     this._isMariaListening = true;
@@ -184,12 +190,14 @@ export class VoiceRecognitionService implements OnInit {
       return false;
     }
 
+    this.speechSynthesisService.speak(this.utterances.listenInstruction);
     return true;
   }
 
   isInstruction(text: string): void {
     if (text.match(this.instructions.stopListening)) {
       this.reset(false);
+      this.speechSynthesisService.speak(this.utterances.listenInstruction);
     }
 
     if (this.currentRoute === '/voice-recognition') {
@@ -248,6 +256,9 @@ export class VoiceRecognitionService implements OnInit {
         this.lastAnalyzedText = res.text;
         this.isStarted = true;
         this.isLoading = false;
+
+        let sentiment = this.isPos ? this.utterances.positive : this.utterances.negative;
+        this.speechSynthesisService.speak(sentiment);
       }
     );
   }

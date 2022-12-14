@@ -4,7 +4,9 @@ import { Component,
          OnInit,
          ViewChild,
          OnDestroy } from '@angular/core';
+import { getUtterances } from '@app/const/utterance';
 import { SentimentAnalysisService } from '@app/shared/services/sentiment-analysis.service';
+import { SpeechSynthesisService } from '@app/shared/services/speech-synthesis.service';
 import { VoiceRecognitionService } from '@app/shared/services/voice-recognition.service';
 
 @Component({
@@ -29,6 +31,7 @@ export class VideoComponent implements OnInit, OnDestroy {
 
   constructor(
     public voiceRecService: VoiceRecognitionService,
+    private speechSynthesisService: SpeechSynthesisService,
     private sentimentService: SentimentAnalysisService,
   ) {
     this.voiceRecService.init();
@@ -38,6 +41,11 @@ export class VideoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setupCamera();
     this.adjustCanvas();
+    
+    const lang = this.speechSynthesisService.lang;
+    const utterance = getUtterances(lang);
+
+    this.speechSynthesisService.speak(utterance.video);
   }
 
   ngOnDestroy(): void {
